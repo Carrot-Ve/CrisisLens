@@ -1,0 +1,25 @@
+{
+  "case_id": "process_report_generation_001",
+  "user_task": "仅执行 report_generation 模块，返回结构化结果；不要生成完整调查报告。",
+  "data_origin": "synthetic",
+  "module": "report_generation",
+  "module_input": {
+    "verified_evidence": [
+      {
+        "source_id": "qc_report_001",
+        "content": "报告日期：2024-03-04。检测对象：青禾酥饼批次 A 留样，样本数 20 包。检查项目：可见异物。结果：本次留样未检出可见异物。该报告不覆盖批次 B，也不代表批次 A 所有已售产品均无异物。"
+      },
+      {
+        "source_id": "recall_001",
+        "content": "发布日期：2024-03-08。公司采取预防性召回，范围为青禾酥饼批次 A。本公告未将批次 B 纳入召回，也未说明批次 B 无需召回。召回措施本身不是对系统性污染的确认。"
+      }
+    ],
+    "constraints": [
+      "仅根据给定证据生成“结论与限制”段落；使用 [source_id] 引用。"
+    ]
+  },
+  "final_delivery": {
+    "format": "json",
+    "require_citations": true
+  }
+}

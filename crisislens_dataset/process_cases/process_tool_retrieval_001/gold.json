@@ -1,0 +1,23 @@
+{
+  "schema_version": "1.0",
+  "case_id": "process_tool_retrieval_001",
+  "status": "synthetic_pending_human_review",
+  "provenance": "人工设计场景，助手生成合成原文和参考判据；尚无独立人工复核和真实 Agent 评测记录。",
+  "expected_facts": [],
+  "uncertainty": [],
+  "assertions": [
+    {
+      "id": "specific_1",
+      "description": "首次检索返回 complaint_001 至 complaint_004 的元数据，不含正文与 Gold。",
+      "severity": "required",
+      "check_mode": "contract"
+    },
+    {
+      "id": "specific_2",
+      "description": "第二次返回 status=ok、items=[]；第三次返回 complaint_003 原文和 source_id。",
+      "severity": "required",
+      "check_mode": "contract"
+    }
+  ],
+  "scoring_ref": "rubrics.md"
+}

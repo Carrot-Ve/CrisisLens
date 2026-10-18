@@ -1,0 +1,38 @@
+{
+  "caseId": "food_foreign_object_001",
+  "userTask": "截至 2024-03-22，调查青禾酥饼异物反馈事件，交付带来源引用的报告；区分用户反馈、已核验事实、冲突与未知项，说明质检及召回的覆盖范围和后续核查建议。",
+  "entities": ["青禾酥饼"],
+  "questionSource": "user_clarification",
+  "questions": [
+    {
+      "id": "Q1",
+      "text": "是否存在消费者异物反馈记录？",
+      "positiveTerms": ["发现疑似", "异物反馈记录"],
+      "negativeTerms": []
+    },
+    {
+      "id": "Q2",
+      "text": "反馈记录是否涉及批次 B？",
+      "positiveTerms": ["批次 B"],
+      "negativeTerms": ["没有批次 B 反馈"]
+    },
+    {
+      "id": "Q3",
+      "text": "是否已确认存在系统性污染？",
+      "positiveTerms": ["已确认存在系统性污染"],
+      "negativeTerms": ["尚未对异物来源或系统性污染作出结论", "不是对系统性污染的确认"]
+    },
+    {
+      "id": "Q4",
+      "text": "是否存在覆盖批次 B 的质检结论？",
+      "positiveTerms": ["覆盖批次 B"],
+      "negativeTerms": ["不覆盖批次 B"]
+    },
+    {
+      "id": "Q5",
+      "text": "召回范围是否包含批次 B？",
+      "positiveTerms": ["批次 B 纳入召回"],
+      "negativeTerms": ["未将批次 B 纳入召回"]
+    }
+  ]
+}

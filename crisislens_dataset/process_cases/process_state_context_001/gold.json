@@ -1,0 +1,23 @@
+{
+  "schema_version": "1.0",
+  "case_id": "process_state_context_001",
+  "status": "synthetic_pending_human_review",
+  "provenance": "人工设计场景，助手生成合成原文和参考判据；尚无独立人工复核和真实 Agent 评测记录。",
+  "expected_facts": [],
+  "uncertainty": [],
+  "assertions": [
+    {
+      "id": "specific_1",
+      "description": "新状态保留旧证据，并加入 qc_report_001；B 质检问题保持未解决，不能因读到 A 报告而关闭。",
+      "severity": "required",
+      "check_mode": "contract"
+    },
+    {
+      "id": "specific_2",
+      "description": "上下文不超过 1200 字符（Unicode code points），包含 B 覆盖缺口及两个来源 ID；状态可保存完整证据，不要求全部进入上下文。",
+      "severity": "required",
+      "check_mode": "contract"
+    }
+  ],
+  "scoring_ref": "rubrics.md"
+}

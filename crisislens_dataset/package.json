@@ -1,0 +1,1 @@
+{"name":"crisislens-dataset","private":true,"type":"module","scripts":{"build:data":"node scripts/build-dataset.ts","validate":"node scripts/validate.ts","test":"node --test scripts/dataset.test.ts"},"engines":{"node":">=24"}}

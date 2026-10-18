@@ -1,0 +1,28 @@
+{
+  "case_id": "process_evidence_conflict_001",
+  "user_task": "仅执行 evidence_conflict 模块，返回结构化结果；不要生成完整调查报告。",
+  "data_origin": "synthetic",
+  "module": "evidence_conflict",
+  "module_input": {
+    "evidence": [
+      {
+        "source_id": "complaint_003",
+        "content": "记录日期：2024-03-05。原始反馈编号：O3。用户自述购买青禾酥饼批次 B，发现疑似金属片。未收到实物鉴定。"
+      },
+      {
+        "source_id": "statement_001",
+        "content": "发布日期：2024-03-07。截至 2024-03-07，公司确认本台账 complaint_001 至 complaint_004 均已收悉，称这些记录全部涉及批次 A，没有批次 B 反馈。未附购买凭证或更正记录。"
+      }
+    ],
+    "output_fields": [
+      "claim",
+      "supports",
+      "contradicts",
+      "status"
+    ]
+  },
+  "final_delivery": {
+    "format": "json",
+    "require_citations": true
+  }
+}

@@ -1,0 +1,5 @@
+# 历史入口已废弃，避免 YAML 与 JSON 双重维护。禁止将此文件作为 Agent 输入。
+status: superseded
+manifest_ref: ../../cases.jsonl
+input_ref: input.json
+gold_ref: gold.json

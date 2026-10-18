@@ -1,0 +1,16 @@
+{
+  "case_id": "food_foreign_object_001_timeout",
+  "user_task": "截至 2024-03-22，调查青禾酥饼异物反馈事件，交付带来源引用的报告；区分用户反馈、已核验事实、冲突与未知项，说明质检及召回的覆盖范围和后续核查建议。",
+  "data_origin": "synthetic",
+  "final_delivery": {
+    "format": "report",
+    "require_citations": true,
+    "sections": [
+      "事实摘要",
+      "证据与引用",
+      "冲突与不确定性",
+      "结论",
+      "限制与后续核查"
+    ]
+  }
+}

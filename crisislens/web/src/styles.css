@@ -1,0 +1,304 @@
+/*
+ * 设计令牌。遵循 frontend-ui-engineering：
+ * - 语义化颜色令牌，组件里不出现裸 hex
+ * - 间距走统一刻度（4 的倍数），不出现 13px 这类凭空值
+ * - 无渐变、无重阴影、圆角取单一层级值
+ * - 正文对比度满足 WCAG AA（4.5:1）
+ */
+:root {
+  --color-bg: #ffffff;
+  --color-bg-surface: #f7f6f4;
+  --color-bg-subtle: #f0efec;
+  --color-border: #ddd9d3;
+  --color-border-strong: #bfbab2;
+
+  --color-text: #22201d;
+  --color-text-secondary: #5c5952;
+  --color-text-muted: #857f76;
+
+  --color-accent: #185fa5;
+  --color-accent-subtle: #e6f0fa;
+
+  --color-success: #3b6d11;
+  --color-success-subtle: #eaf3de;
+  --color-warning: #854f0b;
+  --color-warning-subtle: #faf0d9;
+  --color-danger: #a32d2d;
+  --color-danger-subtle: #fbe9e9;
+
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 24px;
+  --space-6: 32px;
+
+  --radius: 6px;
+  --font-sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC',
+    'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
+  --font-mono: ui-monospace, 'SF Mono', 'Cascadia Code', Consolas, monospace;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-sans);
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--color-text);
+  background: var(--color-bg-surface);
+}
+
+h1 {
+  font-size: 20px;
+  font-weight: 500;
+  margin: 0;
+}
+h2 {
+  font-size: 16px;
+  font-weight: 500;
+  margin: 0;
+}
+h3 {
+  font-size: 14px;
+  font-weight: 500;
+  margin: 0;
+}
+
+button {
+  font: inherit;
+  cursor: pointer;
+  border-radius: var(--radius);
+  border: 1px solid var(--color-border-strong);
+  background: var(--color-bg);
+  color: var(--color-text);
+  padding: var(--space-2) var(--space-4);
+}
+button:hover:not(:disabled) {
+  background: var(--color-bg-subtle);
+}
+button:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+button.primary {
+  background: var(--color-accent);
+  border-color: var(--color-accent);
+  color: #ffffff;
+}
+button.primary:hover:not(:disabled) {
+  background: #12497f;
+}
+
+/* 键盘可达性：焦点必须可见，不能只靠颜色变化 */
+button:focus-visible,
+input:focus-visible,
+textarea:focus-visible,
+a:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+}
+
+input,
+textarea {
+  font: inherit;
+  width: 100%;
+  padding: var(--space-2) var(--space-3);
+  border: 1px solid var(--color-border-strong);
+  border-radius: var(--radius);
+  background: var(--color-bg);
+  color: var(--color-text);
+}
+
+.layout {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: var(--space-5);
+}
+
+.masthead {
+  border-bottom: 1px solid var(--color-border);
+  background: var(--color-bg);
+  padding: var(--space-4) var(--space-5);
+}
+.masthead-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-3);
+}
+
+.card {
+  background: var(--color-bg);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  padding: var(--space-4);
+}
+
+.stack {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.row {
+  display: flex;
+  gap: var(--space-3);
+  align-items: center;
+}
+
+.muted {
+  color: var(--color-text-secondary);
+}
+.small {
+  font-size: 12px;
+}
+.mono {
+  font-family: var(--font-mono);
+  font-size: 12px;
+}
+
+/* 状态标记：颜色 + 文字双重编码，不靠颜色单独承载信息 */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  padding: 2px var(--space-2);
+  border-radius: var(--radius);
+  font-size: 12px;
+  border: 1px solid transparent;
+  white-space: nowrap;
+}
+.badge-running {
+  background: var(--color-accent-subtle);
+  color: var(--color-accent);
+  border-color: #b5d4f4;
+}
+.badge-completed {
+  background: var(--color-success-subtle);
+  color: var(--color-success);
+  border-color: #c0dd97;
+}
+.badge-failed {
+  background: var(--color-danger-subtle);
+  color: var(--color-danger);
+  border-color: #f0bfbf;
+}
+.badge-cancelled {
+  background: var(--color-bg-subtle);
+  color: var(--color-text-secondary);
+  border-color: var(--color-border-strong);
+}
+.badge-partial {
+  background: var(--color-warning-subtle);
+  color: var(--color-warning);
+  border-color: #f0d99f;
+}
+
+.task-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: var(--space-4);
+  padding: var(--space-3) var(--space-4);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  background: var(--color-bg);
+  width: 100%;
+  text-align: left;
+}
+.task-row:hover {
+  background: var(--color-bg-subtle);
+}
+
+.empty-state {
+  text-align: center;
+  padding: var(--space-6) var(--space-4);
+  color: var(--color-text-secondary);
+}
+
+.error-banner {
+  background: var(--color-danger-subtle);
+  border: 1px solid #f0bfbf;
+  color: var(--color-danger);
+  border-radius: var(--radius);
+  padding: var(--space-3) var(--space-4);
+}
+
+.notice {
+  background: var(--color-warning-subtle);
+  border: 1px solid #f0d99f;
+  color: var(--color-warning);
+  border-radius: var(--radius);
+  padding: var(--space-3) var(--space-4);
+}
+
+.evidence-item {
+  border-left: 3px solid var(--color-border-strong);
+  padding: var(--space-2) var(--space-3);
+  margin-bottom: var(--space-3);
+  background: var(--color-bg-surface);
+  border-radius: 0 var(--radius) var(--radius) 0;
+}
+.evidence-item.internal {
+  border-left-color: var(--color-accent);
+}
+
+.event-line {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  padding: 1px 0;
+  color: var(--color-text-secondary);
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.report-body {
+  white-space: pre-wrap;
+  font-size: 13px;
+  line-height: 1.7;
+  background: var(--color-bg-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  padding: var(--space-4);
+  max-height: 520px;
+  overflow-y: auto;
+}
+
+.skeleton {
+  background: var(--color-bg-subtle);
+  border-radius: var(--radius);
+  height: 14px;
+  margin-bottom: var(--space-2);
+}
+
+.link-button {
+  background: none;
+  border: none;
+  color: var(--color-accent);
+  padding: 0;
+  text-decoration: underline;
+}
+
+.tabs {
+  display: flex;
+  gap: var(--space-1);
+  border-bottom: 1px solid var(--color-border);
+  margin-bottom: var(--space-4);
+}
+.tab {
+  border: none;
+  border-bottom: 2px solid transparent;
+  border-radius: 0;
+  background: none;
+  padding: var(--space-2) var(--space-3);
+  color: var(--color-text-secondary);
+}
+.tab[aria-selected='true'] {
+  color: var(--color-text);
+  border-bottom-color: var(--color-accent);
+}

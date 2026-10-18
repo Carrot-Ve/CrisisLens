@@ -1,0 +1,182 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "properties": {
+    "schema_version": {
+      "const": "1.0"
+    },
+    "case_id": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "^[a-z0-9_]+$"
+    },
+    "family_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "split": {
+      "enum": [
+        "dev",
+        "regression",
+        "holdout"
+      ]
+    },
+    "type": {
+      "enum": [
+        "end_to_end",
+        "process"
+      ]
+    },
+    "variant_of": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "variant_type": {
+      "type": "string",
+      "minLength": 1
+    },
+    "input_ref": {
+      "type": "string",
+      "minLength": 1
+    },
+    "gold_ref": {
+      "type": "string",
+      "minLength": 1
+    },
+    "fixtures": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "title": {
+            "type": "string",
+            "minLength": 1
+          },
+          "channel": {
+            "enum": [
+              "public",
+              "internal"
+            ]
+          },
+          "content_ref": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "required": [
+          "id",
+          "title",
+          "channel",
+          "content_ref"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "permissions": {
+      "type": "object",
+      "properties": {
+        "allow": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "uniqueItems": true
+        },
+        "deny": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "uniqueItems": true
+        }
+      },
+      "required": [
+        "allow",
+        "deny"
+      ],
+      "additionalProperties": false
+    },
+    "budget": {
+      "type": "object",
+      "properties": {
+        "max_tool_calls": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "max_tokens": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "max_retries_per_resource": {
+          "type": "integer",
+          "minimum": 0
+        }
+      },
+      "required": [
+        "max_tool_calls",
+        "max_tokens",
+        "max_retries_per_resource"
+      ],
+      "additionalProperties": false
+    },
+    "fault_injections": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "tool": {
+            "enum": [
+              "fetch_source",
+              "read_internal_doc"
+            ]
+          },
+          "resource_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "outcomes": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "enum": [
+                "ok",
+                "timeout"
+              ]
+            }
+          }
+        },
+        "required": [
+          "tool",
+          "resource_id",
+          "outcomes"
+        ],
+        "additionalProperties": false
+      }
+    }
+  },
+  "required": [
+    "schema_version",
+    "case_id",
+    "family_id",
+    "split",
+    "type",
+    "variant_of",
+    "variant_type",
+    "input_ref",
+    "gold_ref",
+    "fixtures",
+    "permissions",
+    "budget",
+    "fault_injections"
+  ],
+  "additionalProperties": false
+}

@@ -1,0 +1,32 @@
+{
+  "case_id": "process_state_context_001",
+  "user_task": "仅执行 state_context 模块，返回结构化结果；不要生成完整调查报告。",
+  "data_origin": "synthetic",
+  "module": "state_context",
+  "module_input": {
+    "previous_state": {
+      "read_source_ids": [
+        "complaint_003"
+      ],
+      "open_questions": [
+        "B 是否有质检结论"
+      ],
+      "evidence": [
+        {
+          "source_id": "complaint_003",
+          "content": "记录日期：2024-03-05。原始反馈编号：O3。用户自述购买青禾酥饼批次 B，发现疑似金属片。未收到实物鉴定。"
+        }
+      ]
+    },
+    "tool_result": {
+      "status": "ok",
+      "source_id": "qc_report_001",
+      "content": "报告日期：2024-03-04。检测对象：青禾酥饼批次 A 留样，样本数 20 包。检查项目：可见异物。结果：本次留样未检出可见异物。该报告不覆盖批次 B，也不代表批次 A 所有已售产品均无异物。"
+    },
+    "context_budget_chars": 1200
+  },
+  "final_delivery": {
+    "format": "json",
+    "require_citations": true
+  }
+}

@@ -1,0 +1,32 @@
+{
+  "case_id": "process_tool_retrieval_001",
+  "user_task": "仅执行 tool_retrieval 模块，返回结构化结果；不要生成完整调查报告。",
+  "data_origin": "synthetic",
+  "module": "tool_retrieval",
+  "module_input": {
+    "calls": [
+      {
+        "tool": "search_sources",
+        "args": {
+          "query": "投诉"
+        }
+      },
+      {
+        "tool": "search_sources",
+        "args": {
+          "query": "不存在的来源"
+        }
+      },
+      {
+        "tool": "fetch_source",
+        "args": {
+          "id": "complaint_003"
+        }
+      }
+    ]
+  },
+  "final_delivery": {
+    "format": "json",
+    "require_citations": true
+  }
+}

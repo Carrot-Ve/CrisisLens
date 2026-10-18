@@ -1,0 +1,27 @@
+{
+  "case_id": "process_planning_stop_001",
+  "user_task": "仅执行 planning_stop 模块，返回结构化结果；不要生成完整调查报告。",
+  "data_origin": "synthetic",
+  "module": "planning_stop",
+  "module_input": {
+    "state": {
+      "open_questions": [
+        "取得 B 质检结论"
+      ],
+      "exhausted_queries": [
+        "批次 B 质检"
+      ],
+      "tool_calls_used": 14,
+      "max_tool_calls": 14
+    },
+    "output_fields": [
+      "action",
+      "stop_reason",
+      "limitations"
+    ]
+  },
+  "final_delivery": {
+    "format": "json",
+    "require_citations": true
+  }
+}

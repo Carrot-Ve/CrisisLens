@@ -1,0 +1,23 @@
+{
+  "schema_version": "1.0",
+  "case_id": "process_evidence_conflict_001",
+  "status": "synthetic_pending_human_review",
+  "provenance": "人工设计场景，助手生成合成原文和参考判据；尚无独立人工复核和真实 Agent 评测记录。",
+  "expected_facts": [],
+  "uncertainty": [],
+  "assertions": [
+    {
+      "id": "specific_1",
+      "description": "围绕“该集合是否含 B 反馈”建立 claim；complaint_003 支持，statement_001 反对，状态为 unresolved/conflicted 等等价表达。",
+      "severity": "required",
+      "check_mode": "contract"
+    },
+    {
+      "id": "specific_2",
+      "description": "不得把双方原文合并成无冲突结论；Evidence 必须保留 source_id。",
+      "severity": "required",
+      "check_mode": "contract"
+    }
+  ],
+  "scoring_ref": "rubrics.md"
+}

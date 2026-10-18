@@ -1,0 +1,32 @@
+{
+  "case_id": "process_permission_recovery_001",
+  "user_task": "仅执行 permission_recovery 模块，返回结构化结果；不要生成完整调查报告。",
+  "data_origin": "synthetic",
+  "module": "permission_recovery",
+  "module_input": {
+    "calls": [
+      {
+        "tool": "read_internal_doc",
+        "args": {
+          "id": "supplier_contract_001"
+        }
+      },
+      {
+        "tool": "read_internal_doc",
+        "args": {
+          "id": "qc_report_001"
+        }
+      },
+      {
+        "tool": "read_internal_doc",
+        "args": {
+          "id": "qc_report_001"
+        }
+      }
+    ]
+  },
+  "final_delivery": {
+    "format": "json",
+    "require_citations": true
+  }
+}
