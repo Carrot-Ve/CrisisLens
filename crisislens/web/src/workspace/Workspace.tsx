@@ -16,12 +16,16 @@ export function Workspace() {
   const [detail,setDetail]=useState<Detail|null>(null),[status,setStatus]=useState<Status|null>(null);
   const [draft,setDraft]=useState(''),[query,setQuery]=useState(''),[error,setError]=useState('');
   const [sending,setSending]=useState(false),[sidebar,setSidebar]=useState(false),[panel,setPanel]=useState(()=>window.innerWidth>960);
-  const [selectedRun,setSelectedRun]=useState(''),[past,setPast]=useState<{events:Event[];report:Report|null}|null>(null);
+  const [selectedRun,setSelectedRun]=useState(''),[past,setPast]=useState<{taskId:string;runId:string;events:Event[];report:Report|null}|null>(null);
   const bottom=useRef<HTMLDivElement>(null),input=useRef<HTMLTextAreaElement>(null),viewId=useRef(taskId);
   const requestId=useRef<{text:string;id:string}|null>(null),createId=useRef(crypto.randomUUID());
   const busy=detail?.runs.some(r=>r.status==='running') ?? false;
   const latest=detail?.runs[0];
   const runId=selectedRun || latest?.runId || '';
+  const showingHistory=!!runId && runId!==latest?.runId;
+  const selectedPast=past?.taskId===taskId && past.runId===runId ? past : null;
+  const panelEvents=showingHistory ? selectedPast?.events ?? [] : detail?.events ?? [];
+  const panelReport=showingHistory ? selectedPast?.report ?? null : detail?.report ?? null;
   const progress=(detail?.events ?? []).filter(e=>eventText(e));
   const pending=detail?.messages.filter(m=>m.role==='user' && m.runId===null).length ?? 0;
   const activeRun=detail?.runs.find(r=>r.status==='running');
@@ -45,9 +49,9 @@ export function Workspace() {
   },[taskId]);
   useEffect(()=>{
     let alive=true;setPast(null);
-    if(selectedRun && selectedRun!==latest?.runId) void fetch(`/api/runs/${selectedRun}/detail`).then(async r=>{if(!r.ok)throw new Error('无法加载历史轮次');return r.json();}).then(d=>{if(alive)setPast(d);}).catch(e=>{if(alive)setError(e.message);});
+    if(selectedRun && selectedRun!==latest?.runId) void fetch(`/api/runs/${selectedRun}/detail`).then(async r=>{if(!r.ok)throw new Error('无法加载历史轮次');return r.json();}).then(d=>{if(alive)setPast({...d,taskId,runId:selectedRun});}).catch(e=>{if(alive)setError(e.message);});
     return()=>{alive=false;};
-  },[selectedRun,latest?.runId]);
+  },[selectedRun,latest?.runId,taskId]);
   useEffect(()=>{bottom.current?.scrollIntoView({behavior:'smooth',block:'end'});},[detail?.messages.length,taskId]);
   function select(id:string) {viewId.current=id;setTaskId(id);setSidebar(false);setDraft('');requestId.current=null;}
   function fresh() {select('');createId.current=crypto.randomUUID();input.current?.focus();}
@@ -60,7 +64,7 @@ export function Workspace() {
       if(!id) {const result=await api<{task:Task}>('/tasks',{title:text,clientId:createId.current});id=result.task.taskId;viewId.current=id;setTaskId(id);saveTask(id);}
       await api(`/tasks/${id}/messages`,{content:text,clientId:messageId});
       const next=await api<Detail>(`/tasks/${id}`);
-      if(viewId.current===id) {setDraft(current=>current.trim()===text?'':current);requestId.current=null;setDetail(next);}
+      if(viewId.current===id) {setDraft(current=>current.trim()===text?'':current);requestId.current=null;setSelectedRun('');setDetail(next);}
       setTasks((await api<{tasks:Task[]}>('/tasks')).tasks);
     } catch(e) {setError(e instanceof Error?e.message:String(e));}
     finally {setSending(false);input.current?.focus();}
@@ -83,6 +87,6 @@ export function Workspace() {
       </div>
       <div className="composer-area">{error && <div className="workspace-error" role="alert">{error}<button aria-label="关闭错误提示" onClick={()=>setError('')}><Icon name="close" size={15}/></button></div>}{status && !status.connected && <div className="connection-warning">API 模型未连接：{status.error}。请配置 API 后刷新连接。</div>}<form className="composer" onSubmit={e=>void send(e)}><textarea ref={input} aria-label="调查消息" placeholder={taskId?'继续追问、补充链接，或调整调查方向…':'描述你想调查的事件，或粘贴公开网页链接…'} value={draft} maxLength={12000} rows={3} onChange={e=>setDraft(e.target.value)} onKeyDown={e=>{if(e.key==='Enter'&&!e.shiftKey&&!e.nativeEvent.isComposing){e.preventDefault();e.currentTarget.form?.requestSubmit();}}}/><div className="composer-toolbar"><span><Icon name="globe" size={15}/>公开网络<span className="toolbar-separator">·</span><Icon name="spark" size={15}/>{status?.model ?? '模型 API'}</span><div>{activeRun && <button type="button" className="stop-button" onClick={()=>void stop()}><Icon name="stop" size={13}/>停止</button>}<button type="submit" className="send-button" aria-label="发送消息" disabled={sending||!draft.trim()}><Icon name="arrow" size={19}/></button></div></div></form><div className="composer-caption"><span>对话与证据将发送至配置的模型 API，检索词发送至搜索服务。</span><span>Shift + Enter 换行</span></div></div>
     </main>
-    {panel && <aside className="research-panel"><ResearchPanel detail={detail} events={past?.events ?? detail?.events ?? []} report={past?past.report:detail?.report ?? null} runId={runId} onRun={setSelectedRun} onClose={()=>setPanel(false)}/></aside>}
+    {panel && <aside className="research-panel"><ResearchPanel detail={detail} events={panelEvents} report={panelReport} runId={runId} onRun={setSelectedRun} onClose={()=>setPanel(false)}/></aside>}
   </div>;
 }

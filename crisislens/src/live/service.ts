@@ -31,11 +31,13 @@ export function createLiveService(db: DatabaseSync, deps: {model?:LiveModel;web?
       if(trace.id)event('trace_started',{text:'已关联本地 Langfuse 追踪',traceId:trace.id});
       const task=store.requireTask(taskId);
       const history=store.messages(taskId).filter(m=>m.runId!==null && m.role!=='system');
-      // Keep objective + recent history; preserve the most recent user revisions under a character cap.
-      const messages=history.slice(-16).map(m=>({role:m.role,content:m.content}));
+      // An explicitly named event starts a fresh topic; keep only this topic's conversation.
+      const topicStart=history.findLastIndex(m=>m.role==='user' && explicitEventSubject(m.content)!==null);
+      const topicHistory=history.slice(Math.max(0,topicStart));
+      const messages=topicHistory.slice(-16).map(m=>({role:m.role,content:m.content}));
       const currentRequest=history.filter(m=>m.role==='user' && m.runId===runId).map(m=>m.content).join('\n');
-      const subject=explicitEventSubject(currentRequest);
-      trace.input({objective:task.userTask,messages});
+      const subject=explicitEventSubject(currentRequest) ?? (topicStart>=0 ? explicitEventSubject(history[topicStart]!.content) : null);
+      trace.input({objective:currentRequest,messages});
       const help=capabilityReply(messages.filter(m=>m.role==='user').at(-1)?.content ?? '');
       if(help) {
         store.addMessage(taskId,'assistant',help,randomUUID(),runId);
